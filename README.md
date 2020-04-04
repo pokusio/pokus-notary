@@ -149,9 +149,8 @@ notary -s https://${NOTARY_SERVICE_NET_NAME}:4443/ -d ~/.docker/trust list docke
 
 # openssl verify -CAfile /usr/local/share/ca-certificates/notary-root-ca.pem ./notary-server.pem 
 
-openssl s_client -connect ${NOTARY_SERVICE_NET_NAME}:4443 -CAfile /usr/local/share/ca-certificates/notary-root-ca.crt -no_ssl3
+echo | openssl s_client -connect ${NOTARY_SERVICE_NET_NAME}:4443 -CAfile /usr/local/share/ca-certificates/notary-root-ca.crt -no_ssl3
 
-openssl s_client -connect ${NOTARY_SERVICE_NET_NAME}:4443 -CAfile /usr/local/share/ca-certificates/notary-root-ca.crt -no_ssl3 -quiet
 
 
 
