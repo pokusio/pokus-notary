@@ -131,15 +131,15 @@ notary -s https://${NOTARY_SERVICE_NET_NAME}:4443/ -d ~/.docker/trust list docke
 
 
 # Now downloading the Pub Cert form notary server
-openssl s_client -showcerts -connect ${NOTARY_SERVICE_NET_NAME}:4443 </dev/null 2>/dev/null|openssl x509 -outform PEM >./notary-server.pem
+# openssl s_client -showcerts -connect ${NOTARY_SERVICE_NET_NAME}:4443 </dev/null 2>/dev/null|openssl x509 -outform PEM >./notary-server.pem
 
-openssl crl2pkcs7 -nocrl -certfile ./notary-server.pem | openssl pkcs7 -print_certs -noout
+# openssl crl2pkcs7 -nocrl -certfile ./notary-server.pem | openssl pkcs7 -print_certs -noout
 
 
 # -- 
 # converting root-ca cert to X509 format (*.pem)
 # 
-openssl x509 -in /usr/local/share/ca-certificates/notary-root-ca.crt -out /usr/local/share/ca-certificates/notary-root-ca.pem
+# openssl x509 -in /usr/local/share/ca-certificates/notary-root-ca.crt -out /usr/local/share/ca-certificates/notary-root-ca.pem
 
 # ---- 
 # --- Now we can verify if the downloaded certificate actually was signed issued by the root-ca
@@ -147,7 +147,12 @@ openssl x509 -in /usr/local/share/ca-certificates/notary-root-ca.crt -out /usr/l
 # Never the less, adding the root-ca to trusted certificates allows using notary commands on
 # the private notary. Whitthout that trust, we would get an error for any notary client command
 
-openssl verify -CAfile /usr/local/share/ca-certificates/notary-root-ca.pem ./notary-server.pem 
+# openssl verify -CAfile /usr/local/share/ca-certificates/notary-root-ca.pem ./notary-server.pem 
+
+openssl s_client -connect ${NOTARY_SERVICE_NET_NAME}:4443 -CAfile /usr/local/share/ca-certificates/notary-root-ca.crt -no_ssl3
+
+openssl s_client -connect ${NOTARY_SERVICE_NET_NAME}:4443 -CAfile /usr/local/share/ca-certificates/notary-root-ca.crt -no_ssl3 -quiet
+
 
 
 ```
