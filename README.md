@@ -129,6 +129,27 @@ curl -vvv https://${NOTARY_SERVICE_NET_NAME}:4443/
 
 notary -s https://${NOTARY_SERVICE_NET_NAME}:4443/ -d ~/.docker/trust list docker.io/library/alpine
 
+
+# Now downloading the Pub Cert form notary server
+openssl s_client -showcerts -connect ${NOTARY_SERVICE_NET_NAME}:4443 </dev/null 2>/dev/null|openssl x509 -outform PEM >./notary-server.pem
+
+openssl crl2pkcs7 -nocrl -certfile ./notary-server.pem | openssl pkcs7 -print_certs -noout
+
+
+# -- 
+# converting root-ca cert to X509 format (*.pem)
+# 
+openssl x509 -in /usr/local/share/ca-certificates/notary-root-ca.crt -out /usr/local/share/ca-certificates/notary-root-ca.pem
+
+# ---- 
+# --- Now we can verify if the downloaded certificate actually was signed issued by the root-ca
+# --- I personnally still get the error : 'error 20 at 0 depth lookup: unable to get local issuer certificate'
+# Never the less, adding the root-ca to trusted certificates allows using notary commands on
+# the private notary. Whitthout that trust, we would get an error for any notary client command
+
+openssl verify -CAfile /usr/local/share/ca-certificates/notary-root-ca.pem ./notary-server.pem 
+
+
 ```
 
 * note : 
