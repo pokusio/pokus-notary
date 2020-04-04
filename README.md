@@ -41,4 +41,10 @@ sudo ln -s /usr/bin/notary-${NOTARY_VERSION_TAG}-${NOTARY_OS}-${NOTARY_CPU_ARCH}
 # # fom the newly installed binary, the new version.
 # 
 
+# 
+# ---
+# 
+notary --help
+notary version
+
 ```
