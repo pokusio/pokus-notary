@@ -130,3 +130,44 @@ curl -vvv https://${NOTARY_SERVICE_NET_NAME}:4443/
 notary -s https://${NOTARY_SERVICE_NET_NAME}:4443/ -d ~/.docker/trust list docker.io/library/alpine
 
 ```
+
+* note : 
+
+```bash
+jbl@pegasusio:~/notary$ tree ~/.docker/
+/home/jbl/.docker/
+├── config.json
+└── trust
+    ├── private
+    └── tuf
+        └── docker.io
+            └── library
+                └── alpine
+                    ├── changelist
+                    └── metadata
+                        ├── root.json
+                        ├── snapshot.json
+                        ├── targets.json
+                        └── timestamp.json
+
+8 directories, 5 files
+jbl@pegasusio:~/notary$ tree ~/.notary
+/home/jbl/.notary
+├── config.json
+├── config.mine.json
+├── private
+├── root-ca.crt
+└── tuf
+    └── docker.io
+        └── library
+            └── alpine
+                ├── changelist
+                └── metadata
+                    ├── root.json
+                    ├── snapshot.json
+                    ├── targets.json
+                    └── timestamp.json
+
+7 directories, 7 files
+jbl@pegasusio:~/notary$ 
+```
