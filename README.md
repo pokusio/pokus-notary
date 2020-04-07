@@ -52,7 +52,7 @@ notary --help
 notary version
 
 ```
-* after that, you can inspect signatures from docher hub : 
+* after that, you can inspect signatures from docker hub : 
 
 ```bash
 # # mkdir -p ~/.notary && cp cmd/notary/config.json cmd/notary/root-ca.crt ~/.notary  # # rememmber ? 
